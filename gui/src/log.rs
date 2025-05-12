@@ -1,0 +1,1 @@
+//TODO: implementar logica pra el logeo de eventos de alertas

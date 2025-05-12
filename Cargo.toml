@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+eframe = "0.31.1"
+egui = "0.27"
+chrono = "0.4"
+gui = { path = "./gui" }
+instrumentos = { path = "./instrumentos" }
