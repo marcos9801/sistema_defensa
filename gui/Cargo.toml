@@ -1,10 +1,13 @@
 [package]
-name = "gui"
-version = "0.1.0"
-edition = "2024"
+name = "gui"                  # Nombre del paquete
+version = "0.1.0"             # Versión del paquete
+edition = "2024"              # Edición de Rust (requiere nightly al 2025-05)
 
 [dependencies]
-eframe = "0.31.1"
-instrumentos = { path = "../instrumentos" }
+eframe = { version = "0.31.1", features = ["persistence", "glow"] }
+egui = "0.31.1"
+egui_plot = "0.31.0"
+
+instrumentos = { path = "../instrumentos" } # Crate local
 chrono = "0.4.41"
 chrono-tz = "0.8"
