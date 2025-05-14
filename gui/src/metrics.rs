@@ -9,7 +9,7 @@ use instrumentos::cpu::CPUInfo;
 use instrumentos::disco::DiscosInfo;
 use instrumentos::memoria::MemoriaInfo;
 use instrumentos::interfaces::InterfacesInfo;
-
+use instrumentos::procesos::ProcesosInfo;
 #[derive(Debug, Clone)]
 pub struct Metric {
     pub id: String, // timestamp
@@ -17,6 +17,7 @@ pub struct Metric {
     pub memoria: MemoriaInfo,
     pub red: InterfacesInfo,
     pub disco: DiscosInfo,
+    pub procesos: ProcesosInfo,
 }
 pub struct MonitorHandle{
     stop_flag: Arc<AtomicBool>,
@@ -50,6 +51,7 @@ impl Metrics {
             memoria: MemoriaInfo::new(),
             red: InterfacesInfo::new(),
             disco: DiscosInfo::new(),
+            procesos: ProcesosInfo::new(),
         };
         self.vector.push(metric);
     }
@@ -69,7 +71,7 @@ impl Metrics {
                     let mut m = shared_self.lock().unwrap();
                     m.refresh();
                 }
-                thread::sleep(Duration::from_secs(1));
+                thread::sleep(Duration::from_secs(5));
             }
         });
 
