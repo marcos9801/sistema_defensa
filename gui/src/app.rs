@@ -14,6 +14,8 @@ pub struct SistemaDefensaApp {
     pub logs: Vec<String>,
     pub vista_actual: Vista,
     pub panel_graficas: PanelGraficas,
+    pub cpu_alert_threshold: f64,
+    pub mem_alert_threshold: f64,
 }
 
 enum Monitoreado {
@@ -34,6 +36,8 @@ impl Default for SistemaDefensaApp {
             logs: Vec::new(),
             vista_actual: Vista::PanelMetricas,
             panel_graficas: PanelGraficas::new(),
+            cpu_alert_threshold: 80.0,
+            mem_alert_threshold: 80.0,
             // panel_graficas: PanelGraficas::new(),
         }
     }
@@ -83,7 +87,7 @@ impl eframe::App for SistemaDefensaApp {
             }
             Vista::PanelAlertas => {
                 egui::CentralPanel::default().show(ctx, |ui| {
-                    PanelAlertas::show(ui, &self.logs);
+                    PanelAlertas::show(ui, &self.logs, &mut self.cpu_alert_threshold, &mut self.mem_alert_threshold, &self.metrics);
                 });
             }
             Vista::PanelGraficas => {

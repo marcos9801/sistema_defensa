@@ -64,8 +64,7 @@ impl PanelGraficas {
         }
         let promedio = (suma as f64 / metric.cpu.get_cantidad_nucleos() as f64) as f64;
         self.historico_cpu.push_back(promedio);
-        let memoria = metric.memoria.get_memoria_total() - metric.memoria.get_memoria_usada();
-        let porcentaje = (memoria as f64 / metric.memoria.get_memoria_total() as f64) * 100.0;
+        let porcentaje = (metric.memoria.get_memoria_usada() as f64 / metric.memoria.get_memoria_total() as f64) * 100.0;
         self.historico_memoria.push_back(porcentaje);
         self.historico_red.push_back(metric.red.get_bytes_recibidos() as f64 / 1000000.0);
         let disco = metric.disco.get_espacio_total() - metric.disco.get_espacio_usado();

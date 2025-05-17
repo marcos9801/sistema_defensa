@@ -46,7 +46,6 @@ use sysinfo::{System, RefreshKind, CpuRefreshKind};
 #[derive(Clone, Debug, Serialize)]
 pub struct CPUInfo {
     brand: String,
-    temperatura: Vec<String>,
     cantidad_nucleos: usize,
     //cantidad_nucleos_e: usize,
     //cantidad_nucleos_p: usize,
@@ -64,7 +63,7 @@ impl CPUInfo {
     // Devuelve la temperatura del CPU
     // Retorno
     // la temperatura del CPU como un flotante
-    pub fn get_temperatura(&self) -> &Vec<String> {&self.temperatura}
+    //pub fn get_temperatura(&self) -> &Vec<String> {&self.temperatura}
     // Devuelve la cantidad de nucleos del CPU
     // Retorno
     // la cantidad de nucleos del CPU como un entero
@@ -91,16 +90,8 @@ impl CPUInfo {
         let mut s = System::new_with_specifics(RefreshKind::nothing().with_cpu(CpuRefreshKind::everything())); //unicamnete refrescar la CPU
         std::thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL); // MINIMUM_CPU_UPDATE_INTERVAL es definido en sysinfo valor por defecto 100ms
         s.refresh_cpu_all();
-        let temperaturas = match Self::obtener_temperaturas() {
-            Ok(temps) => temps,
-            Err(e) => {
-                println!("Error obteniendo temperaturas: {}", e);
-                Vec::new() // Retorna un vector vacío en caso de error
-            }
-        };
         Self {
             brand: s.cpus()[0].brand().to_string(),
-            temperatura: temperaturas,
             cantidad_nucleos: s.cpus().len(),
             //cantidad_nucleos_e: s.cpus().iter().filter(|cpu| cpu.is_stepping()).count(),
             //cantidad_nucleos_p: s.cpus().iter().filter(|cpu| cpu.is_pstate()).count(),
@@ -112,9 +103,6 @@ impl CPUInfo {
     pub fn mostrar_info(&self) {
         println!("Marca del CPU: {}", self.get_brand());
         println!("Temperatura del CPU:");
-        for temp in self.get_temperatura() {
-            println!("  {}", temp);
-        }
         println!("Cantidad de núcleos: {}", self.get_cantidad_nucleos());
         //println!("Cantidad de núcleos E: {}", self.get_cantidad_nucleos_e());
         //println!("Cantidad de núcleos P: {}", self.get_cantidad_nucleos_p());
